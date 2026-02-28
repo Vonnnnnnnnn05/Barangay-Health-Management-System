@@ -2,8 +2,22 @@
 session_start();
 require_once 'conn.php';
 
-if (isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    switch ($_SESSION['role']) {
+        case 'admin':
+            header("Location: Admin/dashboard.php");
+            break;
+        case 'health_worker':
+            header("Location: Health-Workers/dashboard.php");
+            break;
+        case 'patient':
+            header("Location: Patient/dashboard.php");
+            break;
+        default:
+            session_destroy();
+            header("Location: login.php");
+            break;
+    }
     exit();
 }
 
